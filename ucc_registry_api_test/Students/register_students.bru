@@ -1,0 +1,40 @@
+meta {
+  name: register_students
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/register_student
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "first_name": "Jada",
+      "middle_name": "Kimisha",
+      "last_name": "Anderson",
+      "program_of_study_id": 10,
+      "contact_details": {
+          "personal_email": "jada.ann@gmail.com",
+          "mobile_number": "8769980011",
+          "home_number": "8767750999",
+          "work_number": null,
+          "home_address": "45 Glendeson Drive Kingston 5"
+      },
+      "emergency_contacts": [
+          {
+              "contact_person_name": "Kim Anderson",
+              "relation": "Mother",
+              "contact_number": "876444977"
+          },
+          {
+              "contact_person_name": "John Anderson",
+              "relation": "Father",
+              "contact_number": "8763334422"
+          }
+      ]
+  }
+  
+}

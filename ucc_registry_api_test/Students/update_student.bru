@@ -1,0 +1,39 @@
+meta {
+  name: update_student
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://127.0.0.1:8000/update_student/20248471
+  body: json
+  auth: none
+}
+
+body:json {
+    {
+      "first_name": "Andrew",
+      "middle_name": "Keneth",
+      "last_name": "Baconal",
+      "program_of_study_id": 8,
+      "contact_details": {
+        "personal_email": "andy.baco@gmail.com",
+        "mobile_number": "8768805555",
+        "home_number": "8764405555",
+        "work_number": null,
+        "home_address": "25 Main Street Kingston 15"
+      },
+      "emergency_contacts": [
+        {
+          "contact_person_name": "Jane Baconal",
+          "relation": "Mother",
+          "contact_number": "8764567877"
+        },
+        {
+          "contact_person_name": "Mike Baconal",
+          "relation": "Father",
+          "contact_number": "8764567800"
+        }
+      ]
+    }
+}
