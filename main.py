@@ -227,6 +227,7 @@ def update_student(
         ]
     )
 
+
 @app.delete("/delete_student/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_student(student_id: str, db: Session = Depends(get_db)):
     """
