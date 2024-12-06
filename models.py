@@ -24,33 +24,33 @@ class DegreeLevel(Base):
     level_code = Column(String(3), nullable=False)
 
 
-class Courses(Base):
-    __tablename__ = "courses"
+# class Courses(Base):
+#     __tablename__ = "courses"
     
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    course_code = Column(String(5), nullable=False)
-    course_title = Column(String(String(200), nullable=False))
-    course_credits = Column(Integer(1), nullable=False)
-    degree_level_id = Column(Integer, ForeignKey("degree_level.id"), nullable=False)
-    program_id = Column(Integer, ForeignKey("degree_programs.id"), nullable=False)
-    description = Column(Text, nullable=False)
-    date_added = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
-    active = Column(String(3), nullable=False)
+#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+#     course_code = Column(String(5), nullable=False)
+#     course_title = Column(String(200), nullable=False)
+#     course_credits = Column(Integer, nullable=False)
+#     degree_level_id = Column(Integer, ForeignKey("degree_level.id"), nullable=False)
+#     program_id = Column(Integer, ForeignKey("degree_programs.id"), nullable=False)
+#     description = Column(Text, nullable=False)
+#     date_added = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
+#     active = Column(String(3), nullable=False)
     
-    degree_level = relationship("DegreeLevel")
-    programs = relationship("DegreePrograms")
+#     degree_level = relationship("DegreeLevel")
+#     programs = relationship("DegreePrograms")
     
     
-class CoursePrerequisites(Base):
-    __tablename__ = "course_prerequisites"
+# class CoursePrerequisites(Base):
+#     __tablename__ = "course_prerequisites"
     
-    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
-    prerequisite_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
-    is_mandatory = Column(String(3), nullable=False)
+#     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+#     course_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
+#     prerequisite_id = Column(Integer, ForeignKey("courses.id"), nullable=False)
+#     is_mandatory = Column(String(3), nullable=False)
     
-    course = relationship("DegreeProgram")
-    prerequisite = relationship("DegreeProgram")
+#     courses = relationship("DegreePrograms")
+#     prerequisite = relationship("DegreePrograms")
     
 
 class Students(Base):

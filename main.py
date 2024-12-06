@@ -5,12 +5,13 @@
 # Purpose: FastAPI backend implementation for UCC's Registry Department to manage student records,
 # course information, and academic operations.
 
-from fastapi import FastAPI, HTTPException, Depends, status, APIRouter
+from fastapi import FastAPI, HTTPException, Response, Depends, status, APIRouter
 from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 from datetime import time
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import logging
 
 import schemas, models
 from databaseConnect import get_db, engine, Base
@@ -228,21 +229,38 @@ def update_student(
     )
 
 
-@app.delete("/delete_student/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
-def delete_student(student_id: str, db: Session = Depends(get_db)):
+@app.delete("/delete_student_by_id/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
+def delete_student_by_id(student_id: str, db: Session = Depends(get_db)):
     """
     Deletes a student and related records using student_id.
     """
+    # logging.info(f"Attempting to delete student {student_id}")
+    
     # Fetch the student by student_id
     student = db.query(models.Students).filter(models.Students.student_id == student_id).first()
-
+    
     if not student:
+        # logging.error(f"Student {student_id} not found.")
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=f"Student with student_id {student_id} not found."
         )
-
-    # Delete the student
-    db.delete(student)
-    db.commit()
-    return {"message": f"Student with student_id {student_id} has been deleted successfully."}
+    
+    try:
+        # Delete related contacts first
+        db.query(models.StudentContacts).filter(models.StudentContacts.student_id == student_id).delete()
+        
+        # Then delete the student
+        db.delete(student)
+        
+        # logging.info(f"Student {student_id} deleted successfully. Committing transaction.")
+        db.commit()
+    except Exception as e:
+        db.rollback()
+        logging.error(f"Error deleting student {student_id}: {str(e)}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Error deleting student: {str(e)}"
+        )
+    
+    return Response(status_code=status.HTTP_204_NO_CONTENT)
