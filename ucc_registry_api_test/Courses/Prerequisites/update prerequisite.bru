@@ -1,0 +1,20 @@
+meta {
+  name: update prerequisite
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://127.0.0.1:8000/prerequisites/update_prerequisite/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "course_id": 1,
+    "prerequisite_course_id": 2,
+    "is_mandatory": 1
+  }
+  
+}

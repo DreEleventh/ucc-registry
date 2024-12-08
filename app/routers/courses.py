@@ -7,13 +7,18 @@ import app.schemas as schemas, app.models as models
 from app.databaseConnect import get_db
 
 
-router = APIRouter(
+courses_router = APIRouter(
     prefix="/courses", 
     tags=["Courses"],
 )
 
+prerequisites_router = APIRouter(
+    prefix= "/prerequisites",
+    tags=['Prerequisites']
+)
 
-@router.post("/create_course", status_code=status.HTTP_201_CREATED, response_model=schemas.AddCoursesResponse)
+
+@courses_router.post("/create_course", status_code=status.HTTP_201_CREATED, response_model=schemas.AddCoursesResponse)
 async def create_course(course_data: schemas.AddCourses, db: Session = Depends(get_db)): 
     new_course = models.Courses(**course_data.model_dump())
     
@@ -24,7 +29,7 @@ async def create_course(course_data: schemas.AddCourses, db: Session = Depends(g
     return new_course
 
 
-@router.get("/get_courses", response_model=List[schemas.CourseResponse])
+@courses_router.get("/get_courses", response_model=List[schemas.CourseResponse])
 async def get_all_courses(db: Session = Depends(get_db)): 
     courses = db.query(models.Courses).order_by(models.Courses.id.desc()).all()
     
@@ -61,7 +66,7 @@ async def get_all_courses(db: Session = Depends(get_db)):
 #         )
 
 
-@router.put("/update_course/{course_id}")
+@courses_router.put("/update_course/{course_id}")
 async def update_course(course_id: int, course_update: schemas.AddCourses, db: Session = Depends(get_db)):
     update_course_query = db.query(models.Courses).filter(models.Courses.id == course_id)
     
@@ -76,7 +81,7 @@ async def update_course(course_id: int, course_update: schemas.AddCourses, db: S
     return update_course_query.first()
 
 
-@router.delete("/delete_course/{course_id}", status_code=status.HTTP_204_NO_CONTENT)
+@courses_router.delete("/delete_course/{course_id}", status_code=status.HTTP_204_NO_CONTENT)
 async def delete_course(course_id: int, db: Session = Depends(get_db)):
     # Query for the course
     course_query = db.query(models.Courses).filter(models.Courses.id == course_id)
@@ -92,7 +97,7 @@ async def delete_course(course_id: int, db: Session = Depends(get_db)):
     return {"message": f"Course with ID {course_id} has been successfully deleted."}
 
 
-@router.get("/get_course_by_id/{course_id}", response_model=schemas.CourseResponse)
+@courses_router.get("/get_course_by_id/{course_id}", response_model=schemas.CourseResponse)
 async def get_single_course(course_id: int, db: Session = Depends(get_db)):
     # Query the course by ID
     course = db.query(models.Courses).filter(models.Courses.id == course_id).first()
@@ -105,7 +110,7 @@ async def get_single_course(course_id: int, db: Session = Depends(get_db)):
     return course
 
 
-@router.get("/degree_program_courses/{program_id}", response_model=List[schemas.CourseResponse])
+@courses_router.get("/degree_program_courses/{program_id}", response_model=List[schemas.CourseResponse])
 async def get_courses_by_degree_program(program_id: int, db: Session = Depends(get_db)):
     # Query to get courses for the specific degree program
     courses = db.query(models.Courses).filter(models.Courses.program_id == program_id).all()
@@ -118,3 +123,69 @@ async def get_courses_by_degree_program(program_id: int, db: Session = Depends(g
     
     # Return the list of courses
     return courses
+
+
+#------------------------------------------- Prerequisites Endpoints -------------------------------------------
+
+@prerequisites_router.post("/add_prerequisite", status_code=status.HTTP_201_CREATED, response_description=schemas.AddPrerequisitesResponse)
+async def add_course_prerequisite(prerequisite_data: schemas.AddPrerequisites, db: Session = Depends(get_db)): 
+    
+    new_prerequisite = models.CoursePrerequisites(**prerequisite_data.model_dump())
+    
+    db.add(new_prerequisite)
+    db.commit()
+    db.refresh(new_prerequisite)
+    
+    return new_prerequisite
+
+
+@prerequisites_router.get("/get_prerequisites", response_model=List[schemas.PrerequisitesResponse])
+async def get_all_prerequisites(db: Session = Depends(get_db)):
+    
+    prerequisites = db.query(models.CoursePrerequisites).order_by(models.CoursePrerequisites.id.desc()).all()
+    
+    prerequisites_dict = [prerequisite.__dict__ for prerequisite in prerequisites]
+    
+    return prerequisites_dict
+
+
+@prerequisites_router.put("/update_prerequisite/{prerequisite_id}", response_model=schemas.PrerequisitesResponse)
+async def update_prerequisite(prerequisite_id: int, updated_data: schemas.AddPrerequisites, db: Session = Depends(get_db)):
+    
+    prerequisite_query = db.query(models.CoursePrerequisites).filter(models.CoursePrerequisites.id == prerequisite_id)
+    prerequisite = prerequisite_query.first()
+    
+    if not prerequisite:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Prerequisite with ID {prerequisite_id} not found.")
+    
+    prerequisite_query.update(updated_data.model_dump(), synchronize_session=False)
+    
+    db.commit()
+
+    return prerequisite_query.first()
+
+
+@prerequisites_router.delete("/delete_prerequisite/{prerequisite_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_prerequisite(prerequisite_id: int, db: Session = Depends(get_db)):
+    
+    prerequisite_query = db.query(models.CoursePrerequisites).filter(models.CoursePrerequisites.id == prerequisite_id)
+    prerequisite = prerequisite_query.first()
+    
+    if not prerequisite:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Prerequisite with ID {prerequisite_id} not found.")
+    
+    prerequisite_query.delete(synchronize_session=False)
+    db.commit()
+    
+    return {"detail": f"Prerequisite with ID {prerequisite_id} deleted successfully."}
+
+
+@prerequisites_router.get("/get_single_prerequisite/{prerequisite_id}", response_model=schemas.PrerequisitesResponse)
+async def get_single_prerequisite(prerequisite_id: int, db: Session = Depends(get_db)):
+    
+    prerequisite = db.query(models.CoursePrerequisites).filter(models.CoursePrerequisites.id == prerequisite_id).first()
+    
+    if not prerequisite:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Prerequisite with ID {prerequisite_id} not found.")
+    
+    return prerequisite

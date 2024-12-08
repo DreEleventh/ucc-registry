@@ -107,7 +107,7 @@ class CourseResponse(CoursesBase):
 class PrerequisitesBase(BaseModel):
     course_id: int 
     prerequisite_course_id: int 
-    is_mandatory: str 
+    is_mandatory: Optional[bool] = True 
     
 class AddPrerequisites(PrerequisitesBase):
     pass 
