@@ -101,6 +101,19 @@ class CourseResponse(CoursesBase):
     class Config: 
         from_attributes = True 
 
+class CoursePrerequisiteInfo(BaseModel):
+    prerequisite_course_id: int
+    is_mandatory: bool
+
+class CourseWithPrerequisitesResponse(BaseModel):
+    course_id: int
+    course_code: str
+    course_title: str
+    prerequisites: List[CoursePrerequisiteInfo]
+
+    class Config:
+        from_attributes = True
+
 
 #------------------- Prerequisites Schemas ---------------------
 

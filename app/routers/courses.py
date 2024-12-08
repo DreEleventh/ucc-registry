@@ -125,6 +125,93 @@ async def get_courses_by_degree_program(program_id: int, db: Session = Depends(g
     return courses
 
 
+@courses_router.get("/get_all_courses_with_prerequisites", response_model=List[schemas.CourseWithPrerequisitesResponse])
+async def get_courses_with_prerequisites(db: Session = Depends(get_db)):
+    courses = (
+        db.query(
+            models.Courses,
+            models.CoursePrerequisites.prerequisite_course_id,
+            models.CoursePrerequisites.is_mandatory,
+        )
+        .join(
+            models.CoursePrerequisites,
+            models.Courses.id == models.CoursePrerequisites.course_id,
+            isouter=True,
+        )
+        .order_by(models.Courses.id)
+        .all()
+    )
+
+    response = {}
+    for course, prerequisite_course_id, is_mandatory in courses:
+        course_id = course.id
+        if course_id not in response:
+            response[course_id] = {
+                "course_id": course_id,
+                "course_code": course.course_code,
+                "course_title": course.course_title,
+                "prerequisites": [],
+            }
+        if prerequisite_course_id:
+            response[course_id]["prerequisites"].append(
+                {
+                    "prerequisite_course_id": prerequisite_course_id,
+                    "is_mandatory": is_mandatory == True,
+                }
+            )
+
+    return list(response.values())
+
+
+
+@courses_router.get("/get_single_course_with_prerequisites/{course_id}", response_model=schemas.CourseWithPrerequisitesResponse)
+async def get_course_with_prerequisites(course_id: int, db: Session = Depends(get_db)):
+    course_with_prerequisites = (
+        db.query(
+            models.Courses,
+            models.CoursePrerequisites.prerequisite_course_id,
+            models.CoursePrerequisites.is_mandatory,
+        )
+        .join(
+            models.CoursePrerequisites,
+            models.Courses.id == models.CoursePrerequisites.course_id,
+            isouter=True,
+        )
+        .filter(models.Courses.id == course_id)
+        .all()
+    )
+
+    if not course_with_prerequisites:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=f"Course with ID {course_id} not found",
+        )
+
+    # Prepare response
+    course_info = None
+    prerequisites = []
+
+    for course, prerequisite_course_id, is_mandatory in course_with_prerequisites:
+        if not course_info:
+            course_info = {
+                "course_id": course.id,
+                "course_code": course.course_code,
+                "course_title": course.course_title,
+            }
+        if prerequisite_course_id:
+            prerequisites.append(
+                {
+                    "prerequisite_course_id": prerequisite_course_id,
+                    "is_mandatory": is_mandatory == True,
+                }
+            )
+
+    return {
+        **course_info,
+        "prerequisites": prerequisites,
+    }
+
+
 #------------------------------------------- Prerequisites Endpoints -------------------------------------------
 
 @prerequisites_router.post("/add_prerequisite", status_code=status.HTTP_201_CREATED, response_description=schemas.AddPrerequisitesResponse)
@@ -189,3 +276,14 @@ async def get_single_prerequisite(prerequisite_id: int, db: Session = Depends(ge
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Prerequisite with ID {prerequisite_id} not found.")
     
     return prerequisite
+
+
+@prerequisites_router.get("/get_prerequisites_for_course/{course_id}", response_model=List[schemas.PrerequisitesResponse])
+async def get_prerequisites_for_course(course_id: int, db: Session = Depends(get_db)):
+    
+    prerequisites = db.query(models.CoursePrerequisites).filter(models.CoursePrerequisites.course_id == course_id).all()
+    
+    if not prerequisites:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"No prerequisites found for course with ID {course_id}.")
+    
+    return prerequisites
