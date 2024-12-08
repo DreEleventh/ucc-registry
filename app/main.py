@@ -12,7 +12,7 @@ from contextlib import asynccontextmanager
 
 import app.schemas as schemas, app.models as models
 from app.databaseConnect import engine, Base
-from app.routers import students, courses
+from app.routers import students, courses, programs
 
 
 @asynccontextmanager
@@ -34,6 +34,7 @@ app.add_middleware(
 
 app.include_router(students.router)
 app.include_router(courses.router)
+app.include_router(programs.router)
 
 @app.get("/")
 async def root():

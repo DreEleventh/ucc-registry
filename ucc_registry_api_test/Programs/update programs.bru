@@ -1,0 +1,21 @@
+meta {
+  name: update programs
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://127.0.0.1:8000/programs/update_degree_program/12
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "program_code": "PSY107", 
+    "program_name": "Bachelor of Psychology on bigs", 
+    "description": "An in-depth exploration of human behavior, mental processes, and psychological research methods.",
+    "department": "Social Sciences"
+  }
+  
+}

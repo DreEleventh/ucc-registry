@@ -1,0 +1,21 @@
+meta {
+  name: add programs
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/programs/add_program
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "program_code": "PSY105", 
+    "program_name": "Bachelor of Psychology", 
+    "description": "An in-depth exploration of human behavior, mental processes, and psychological research methods.",
+    "department": "Social Sciences"
+  }
+  
+}

@@ -32,7 +32,7 @@ class EnrolStudentResponse(BaseModel):
     date_registered: datetime
 
     class Config:
-        orm_mode: True
+       from_attributes = True
 
 class StudentResponse(StudentBase):
     id: int
@@ -46,7 +46,7 @@ class StudentResponse(StudentBase):
     emergency_contacts: List[EmergencyContacts]
 
     class Config:
-        orm_mode: True
+       from_attributes = True
 
 class UpdateContactDetails(BaseModel):
     personal_email: Optional[EmailStr]
@@ -81,7 +81,7 @@ class CoursesBase(BaseModel):
     active: Optional[str]
     
     class Config: 
-        orm_mode = True
+       from_attributes = True
         
 class AddCourses(CoursesBase): 
     pass 
@@ -92,14 +92,14 @@ class AddCoursesResponse(BaseModel):
     date_added: datetime
     
     class Config:
-        orm_mode: True
+        from_attributes = True
         
 class CourseResponse(CoursesBase): 
     id: int 
     date_added: datetime
     
     class Config: 
-        orm_mode: True 
+        from_attributes = True 
 
 
 #------------------- Prerequisites Schemas ---------------------
@@ -117,13 +117,13 @@ class AddPrerequisitesResponse(BaseModel):
     course_id: int
     
     class Config: 
-        orm_mode: True
+        from_attributes = True
         
 class PrerequisitesResponse(PrerequisitesBase):
     id: int 
     
-    class Confog: 
-        orm_mode: True    
+    class Config: 
+        from_attributes = True    
 
 
 #------------------- Programs Schemas ---------------------
@@ -142,13 +142,13 @@ class AddDegreeProgramResponse(BaseModel):
     program_code: str 
     
     class Config:
-        orm_mode: True
+        from_attributes = True
         
 class DegreeProgramResponse(DegreeProgramsBase):
     id: int 
     
     class Config:
-        orm_mode: True
+        from_attributes = True
         
 
 
