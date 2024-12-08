@@ -5,34 +5,34 @@ meta {
 }
 
 post {
-  url: http://127.0.0.1:8000/register_student
+  url: http://127.0.0.1:8000/students/register
   body: json
   auth: none
 }
 
 body:json {
   {
-      "first_name": "Jada",
-      "middle_name": "Kimisha",
-      "last_name": "Anderson",
-      "program_of_study_id": 10,
+      "first_name": "Kimone",
+      "middle_name": "Jillian",
+      "last_name": "Porter",
+      "program_of_study_id": 8,
       "contact_details": {
-          "personal_email": "jada.ann@gmail.com",
-          "mobile_number": "8769980011",
-          "home_number": "8767750999",
+          "personal_email": "Kimone.porter@gmail.com",
+          "mobile_number": "8767750055",
+          "home_number": "8761904455",
           "work_number": null,
-          "home_address": "45 Glendeson Drive Kingston 5"
+          "home_address": "16 Henry Ave Kingston 5"
       },
       "emergency_contacts": [
           {
-              "contact_person_name": "Kim Anderson",
+              "contact_person_name": "Kim Porter",
               "relation": "Mother",
-              "contact_number": "876444977"
+              "contact_number": "8765559955"
           },
           {
-              "contact_person_name": "John Anderson",
+              "contact_person_name": "James Porter",
               "relation": "Father",
-              "contact_number": "8763334422"
+              "contact_number": "8764440099"
           }
       ]
   }

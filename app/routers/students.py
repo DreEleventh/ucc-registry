@@ -1,35 +1,19 @@
-# Name of Enterprise App: UCC Registry System
-# Developers: [Your names here]
-# Version: 1.0
-# Version Date: 2024-11-23
-# Purpose: FastAPI backend implementation for UCC's Registry Department to manage student records,
-# course information, and academic operations.
-
-from fastapi import FastAPI, HTTPException, Response, Depends, status, APIRouter
+from fastapi import HTTPException, Response, Depends, status, APIRouter
 from sqlalchemy.orm import Session, joinedload
-from typing import List, Optional
-from datetime import time
-from fastapi.middleware.cors import CORSMiddleware
-from contextlib import asynccontextmanager
+from typing import List
 import logging
 
-import schemas, models
-from databaseConnect import get_db, engine, Base
-from utils import generate_student_id, generate_student_email
+import app.schemas as schemas, app.models as models
+from app.databaseConnect import get_db
+from app.utils import generate_student_id, generate_student_email
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
-
-app = FastAPI(lifespan=lifespan)
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+router = APIRouter(
+    prefix="/students",
+    tags=["Students"],
+)
 
 
-@app.post("/register_student", status_code=status.HTTP_201_CREATED, response_model=schemas.EnrolStudentResponse)
+@router.post("/register", status_code=status.HTTP_201_CREATED, response_model=schemas.EnrolStudentResponse)
 async def register_student(student_data: schemas.EnrolStudent, db: Session = Depends(get_db)):
 
     # Generate unique student ID and email
@@ -60,14 +44,12 @@ async def register_student(student_data: schemas.EnrolStudent, db: Session = Dep
     return new_student
 
 
-@app.get("/get_all_students",response_model=List[schemas.StudentResponse])
+@router.get("/get_all",response_model=List[schemas.StudentResponse])
 def get_all_students(db: Session = Depends(get_db)):
     students = db.query(
         models.Students
-    ).join(
-        models.StudentContacts, models.Students.student_id == models.StudentContacts.student_id
-    ).join(
-        models.EmergencyContacts, models.Students.student_id == models.EmergencyContacts.student_id, isouter=True
+    ).join(models.StudentContacts, models.Students.student_id == models.StudentContacts.student_id
+    ).join(models.EmergencyContacts, models.Students.student_id == models.EmergencyContacts.student_id, isouter=True
     ).all()
 
     response = []
@@ -101,7 +83,7 @@ def get_all_students(db: Session = Depends(get_db)):
     return response
 
 
-@app.get("/get_students", response_model=List[schemas.StudentResponse])
+@router.get("/get", response_model=List[schemas.StudentResponse])
 def get_all_students(db: Session = Depends(get_db)):
     students = (
         db.query(models.Students)
@@ -144,12 +126,8 @@ def get_all_students(db: Session = Depends(get_db)):
     ]
     
 
-@app.put("/update_student/{student_id}", response_model=schemas.StudentResponse)
-def update_student(
-    student_id: str,
-    student_data: schemas.UpdateStudent,  # New schema for updates
-    db: Session = Depends(get_db)
-):
+@router.put("/update/{student_id}", response_model=schemas.StudentResponse)
+def update_student(student_id: str, student_data: schemas.UpdateStudent, db: Session = Depends(get_db)):
     # Fetch the student by student_id
     student = db.query(models.Students).filter(models.Students.student_id == student_id).first()
 
@@ -229,7 +207,7 @@ def update_student(
     )
 
 
-@app.delete("/delete_student_by_id/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
+@router.delete("/delete_by_id/{student_id}", status_code=status.HTTP_204_NO_CONTENT)
 def delete_student_by_id(student_id: str, db: Session = Depends(get_db)):
     """
     Deletes a student and related records using student_id.

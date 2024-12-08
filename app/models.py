@@ -3,7 +3,7 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
 from sqlalchemy.sql.sqltypes import TIMESTAMP, DATE, Text
 
-from databaseConnect import Base
+from app.databaseConnect import Base
 
 
 class DegreePrograms(Base):
@@ -28,7 +28,7 @@ class Courses(Base):
     __tablename__ = "courses"
     
     id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
-    course_code = Column(String(5), nullable=False)
+    course_code = Column(String(6), nullable=False)
     course_title = Column(String(200), nullable=False)
     course_credits = Column(Integer, nullable=False)
     degree_level_id = Column(Integer, ForeignKey("degree_level.id"), nullable=False)

@@ -1,0 +1,23 @@
+meta {
+  name: update course
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://127.0.0.1:8000/courses/update_course/17
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "course_code": "PHY204",
+    "course_title": "Advanced Physics",
+    "course_credits": 4,
+    "degree_level_id": 2,
+    "program_id": 6,
+    "description": "This course covers advanced topics in physics, including quantum mechanics and thermodynamics.",
+    "active": "YES"
+  }
+}

@@ -67,3 +67,88 @@ class UpdateStudent(BaseModel):
     program_of_study_id: Optional[int]
     contact_details: Optional[UpdateContactDetails]
     emergency_contacts: Optional[List[UpdateEmergencyContact]]
+    
+    
+#------------------- Courses Schemas ---------------------
+
+class CoursesBase(BaseModel):
+    course_code: str 
+    course_title: str 
+    course_credits: int
+    degree_level_id: int
+    program_id: int 
+    description: str
+    active: Optional[str]
+    
+    class Config: 
+        orm_mode = True
+        
+class AddCourses(CoursesBase): 
+    pass 
+
+class AddCoursesResponse(BaseModel):
+    id: int
+    course_code: str
+    date_added: datetime
+    
+    class Config:
+        orm_mode: True
+        
+class CourseResponse(CoursesBase): 
+    id: int 
+    date_added: datetime
+    
+    class Config: 
+        orm_mode: True 
+
+
+#------------------- Prerequisites Schemas ---------------------
+
+class PrerequisitesBase(BaseModel):
+    course_id: int 
+    prerequisite_course_id: int 
+    is_mandatory: str 
+    
+class AddPrerequisites(PrerequisitesBase):
+    pass 
+
+class AddPrerequisitesResponse(BaseModel):
+    id: int 
+    course_id: int
+    
+    class Config: 
+        orm_mode: True
+        
+class PrerequisitesResponse(PrerequisitesBase):
+    id: int 
+    
+    class Confog: 
+        orm_mode: True    
+
+
+#------------------- Programs Schemas ---------------------
+
+class DegreeProgramsBase(BaseModel):
+    program_code: str
+    program_name: str
+    description: str 
+    department: str 
+    
+class AddDegreePrograms(DegreeProgramsBase):
+    pass 
+
+class AddDegreeProgramResponse(BaseModel): 
+    id: int 
+    program_code: str 
+    
+    class Config:
+        orm_mode: True
+        
+class DegreeProgramResponse(DegreeProgramsBase):
+    id: int 
+    
+    class Config:
+        orm_mode: True
+        
+
+
