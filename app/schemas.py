@@ -2,7 +2,7 @@ from pydantic import  BaseModel, EmailStr, conint
 from datetime import datetime
 from typing import Optional, List
 
-
+#----------------------- Student Schemas -----------------------
 # Contact details schema
 class ContactDetails(BaseModel):
     personal_email: EmailStr
@@ -47,6 +47,14 @@ class StudentResponse(StudentBase):
 
     class Config:
        from_attributes = True
+       
+class StudentInfo(StudentBase):
+    student_id: str
+    date_registered: datetime
+    gpa: Optional[int] = None
+
+    class Config:
+        form_attributes = True
 
 class UpdateContactDetails(BaseModel):
     personal_email: Optional[EmailStr]

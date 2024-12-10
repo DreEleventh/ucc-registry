@@ -163,7 +163,6 @@ async def get_courses_with_prerequisites(db: Session = Depends(get_db)):
     return list(response.values())
 
 
-
 @courses_router.get("/get_single_course_with_prerequisites/{course_id}", response_model=schemas.CourseWithPrerequisitesResponse)
 async def get_course_with_prerequisites(course_id: int, db: Session = Depends(get_db)):
     course_with_prerequisites = (

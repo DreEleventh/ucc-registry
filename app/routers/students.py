@@ -242,3 +242,22 @@ def delete_student_by_id(student_id: str, db: Session = Depends(get_db)):
         )
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+@router.get("/emergency-contact/{student_id}", response_model=List[schemas.EmergencyContacts])
+def read_emergency_contacts(student_id: str, db: Session = Depends(get_db)):
+
+    contact_query = db.query(models.EmergencyContacts).filter(models.EmergencyContacts.student_id == student_id).all()
+
+    if not contact_query:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Emergency contact with Student ID {student_id} not found")
+    return contact_query
+
+
+@router.get("/student-info/{student_id}", response_model = schemas.StudentInfo)
+def read_student_info(student_id: str, db: Session = Depends(get_db)):
+
+    student = db.query(models.Students).filter(models.Students.student_id ==student_id).first()
+
+    if not student:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, details = f"Student with Student ID {student_id} not found")
+    return student        
