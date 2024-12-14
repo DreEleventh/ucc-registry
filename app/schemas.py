@@ -1,6 +1,7 @@
-from pydantic import  BaseModel, EmailStr, conint
+from pydantic import  BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional, List
+
 
 #----------------------- Student Schemas -----------------------
 # Contact details schema
@@ -173,3 +174,63 @@ class DegreeProgramResponse(DegreeProgramsBase):
         
 
 
+
+#------------------- Lecturers Schemas ---------------------
+
+class LecturerTitleBase(BaseModel):
+    title_name: str
+
+
+class LecturerTitleResponse(LecturerTitleBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+class DepartmentBase(BaseModel):
+    department_name: str
+    department_code: str
+
+
+class DepartmentResponse(DepartmentBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+class PositionTypeBase(BaseModel):
+    position_type: str
+    description: Optional[str]
+
+
+class PositionTypeResponse(PositionTypeBase):
+    id: int
+
+    class Config:
+        from_attributes = True
+
+
+class LecturerBase(BaseModel):
+    id_number: str
+    title_id: int
+    first_name: str
+    last_name: str
+    department_id: int
+    position_type_id: int
+
+
+class LecturerCreate(LecturerBase):
+    pass
+
+
+class LecturerResponse(LecturerBase):
+    id: int
+    hire_date: datetime
+    title: Optional[LecturerTitleResponse]
+    department: Optional[DepartmentResponse]
+    position: Optional[PositionTypeResponse]
+
+    class Config:
+        from_attributes = True

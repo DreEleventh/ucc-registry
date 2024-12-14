@@ -1,11 +1,12 @@
 from sqlalchemy import Boolean, CheckConstraint, Column, Integer, String, Float, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql.expression import text
-from sqlalchemy.sql.sqltypes import TIMESTAMP, DATE, Text
+from sqlalchemy.sql.sqltypes import TIMESTAMP, Text
 
 from app.databaseConnect import Base
 
 
+#--------------------------------- Courses & Programs --------------------------------
 class DegreePrograms(Base):
     __tablename__ = "degree_programs"
     
@@ -58,7 +59,10 @@ class CoursePrerequisites(Base):
         CheckConstraint("course_id != prerequisite_course_id", name="check_not_self_prerequisite"),
         UniqueConstraint("course_id", "prerequisite_course_id", name="unique_course_prerequisite"),
     )
-    
+
+
+#------------------------------------ Students ---------------------------------------
+
 class Students(Base):
     __tablename__ = "students"
 
@@ -112,3 +116,37 @@ class StudentCredentials(Base):
 
     student = relationship("Students")
 
+
+#--------------------------------------- Lectures -----------------------------------------
+
+class LecturerTitles(Base):
+    __tablename__ = "lecturer_titles"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    title_name =Column(String(20), unique=True, nullable=False)
+    
+class Departments(Base):
+    __tablename__ = "departments"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    department_name = Column(String(150), unique=True, nullable=False)
+    department_code = Column(String(10), unique=True, nullable=False)
+    
+class PositionTypes(Base):
+    __tablename__ = "position_types"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    position_type = Column(String(50), unique=True, nullable=False)
+    description = Column(Text)
+    
+class Lecturers(Base):
+    __tablename__ = "lecturers"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    id_number = Column(String(10), unique=True, nullable=False)
+    title_id = Column(Integer, ForeignKey('lecturer_titles.id'))
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    department_id = Column(Integer, ForeignKey('departments.id'))
+    position_type_id = Column(Integer, ForeignKey('position_types.id'))
+    hire_date = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
+    
+    title = relationship("LecturerTitles")
+    department = relationship("Departments")
+    position = relationship("PositionTypes")

@@ -1,9 +1,9 @@
-from fastapi import HTTPException, Response, Depends, status, APIRouter
-from sqlalchemy.orm import Session, joinedload
+from fastapi import HTTPException, Depends, status, APIRouter
+from sqlalchemy.orm import Session
 from typing import List
-import logging
 
-import app.schemas as schemas, app.models as models
+import app.schemas as schemas
+import app.models as models
 from app.databaseConnect import get_db
 
 
@@ -156,7 +156,7 @@ async def get_courses_with_prerequisites(db: Session = Depends(get_db)):
             response[course_id]["prerequisites"].append(
                 {
                     "prerequisite_course_id": prerequisite_course_id,
-                    "is_mandatory": is_mandatory == True,
+                    "is_mandatory": is_mandatory is True,
                 }
             )
 
@@ -201,7 +201,7 @@ async def get_course_with_prerequisites(course_id: int, db: Session = Depends(ge
             prerequisites.append(
                 {
                     "prerequisite_course_id": prerequisite_course_id,
-                    "is_mandatory": is_mandatory == True,
+                    "is_mandatory": is_mandatory is True,
                 }
             )
 

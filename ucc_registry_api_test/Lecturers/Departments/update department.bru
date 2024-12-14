@@ -1,0 +1,18 @@
+meta {
+  name: update department
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://127.0.0.1:8000/departments/update_departments/12
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "department_name": "Space Studies",
+    "department_code": "SPS"
+  }
+}

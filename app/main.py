@@ -10,9 +10,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 
 
-import app.schemas as schemas, app.models as models
 from app.databaseConnect import engine, Base
-from app.routers import students, courses, programs
+from app.routers import students, courses, programs, lecturers
 
 
 @asynccontextmanager
@@ -36,6 +35,10 @@ app.include_router(students.router)
 app.include_router(courses.courses_router)
 app.include_router(programs.programs_router)
 app.include_router(courses.prerequisites_router)
+app.include_router(lecturers.lecturers_router)
+app.include_router(lecturers.titles_router)
+app.include_router(lecturers.departments_router)
+app.include_router(lecturers.positions_router)
 
 @app.get("/")
 async def root():

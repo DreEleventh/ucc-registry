@@ -3,7 +3,8 @@ from sqlalchemy.orm import Session, joinedload
 from typing import List
 import logging
 
-import app.schemas as schemas, app.models as models
+import app.schemas as schemas
+import app.models as models
 from app.databaseConnect import get_db
 from app.utils import generate_student_id, generate_student_email
 
@@ -84,7 +85,7 @@ def get_all_students(db: Session = Depends(get_db)):
 
 
 @router.get("/get", response_model=List[schemas.StudentResponse])
-def get_all_students(db: Session = Depends(get_db)):
+def get_all_students(db: Session = Depends(get_db)):  # noqa: F811
     students = (
         db.query(models.Students)
         .options(
@@ -242,6 +243,7 @@ def delete_student_by_id(student_id: str, db: Session = Depends(get_db)):
         )
     
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
 
 @router.get("/emergency-contact/{student_id}", response_model=List[schemas.EmergencyContacts])
 def read_emergency_contacts(student_id: str, db: Session = Depends(get_db)):

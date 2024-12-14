@@ -1,0 +1,17 @@
+meta {
+  name: add title
+  type: http
+  seq: 4
+}
+
+post {
+  url: http://127.0.0.1:8000/titles/add_lecturer_titles
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "title_name": "Su."
+  }
+}

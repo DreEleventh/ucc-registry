@@ -1,0 +1,18 @@
+meta {
+  name: add department
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/departments/add_departments
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "department_name": "Space Tech",
+    "department_code": "SPT"
+  }
+}
