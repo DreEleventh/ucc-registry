@@ -1,0 +1,21 @@
+meta {
+  name: add admin
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://127.0.0.1:8000/admin/create_admin
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "first_name": "Tommy",
+      "last_name": "Redman",
+      "admin_credentials": {
+         "password": "Passw0rd122"
+      }
+  }
+}

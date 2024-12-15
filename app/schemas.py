@@ -262,6 +262,54 @@ class LecturerResponse(LecturerBase):
         
 #=============================== Token =============================
 
+class AdminBase(BaseModel):
+    first_name: str
+    last_name: str
+    status: Optional[str] = "Active"
+
+class CreateAdmin(AdminBase):
+    pass
+
+class AdminResponse(AdminBase):
+    id: int
+    admin_id: str
+    admin_email: EmailStr
+    hire_date: datetime
+
+    class Config:
+        from_attributes = True
+
+class AdminCredentialsBase(BaseModel):
+    # username: EmailStr
+    password: str
+
+class AdminCredentialsResponse(AdminCredentialsBase):
+    id: int
+    admin_id: str
+    last_login_time: Optional[datetime] = None
+
+    class Config:
+        from_attributes = True
+
+class RegisterAdmin(AdminBase):
+    admin_credentials: AdminCredentialsBase
+    
+class UpdateAdmin(BaseModel): 
+    first_name: Optional[str]
+    last_name: Optional[str]
+    status: Optional[str]
+    admin_email: Optional[EmailStr]
+    
+    class Config:
+        from_attributes = True
+        
+class AdminLogin(BaseModel): 
+    username: EmailStr
+    password: str
+    
+        
+#=============================== Token =============================
+
 class Token(BaseModel):
     """
     Model to represent an authentication token.

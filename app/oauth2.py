@@ -4,10 +4,13 @@ from fastapi import Depends, status, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.orm import Session
 
-from . import schemas, databaseConn, models
+import app.schemas as schemas
+import app.models as models
+
+from app import databaseConnect
 
 
-oauth2_scheme =  OAuth2PasswordBearer(tokenUrl='donor_login')
+oauth2_scheme =  OAuth2PasswordBearer(tokenUrl='admin_login')
 
 # Constants for JWT
 SECRET_KEY = "jksownkdnaunrpahfuyenclaybpnwbqa4hei2098453erfgswknifbsxawqin6thfveomcswlxawsbbuy"
@@ -47,12 +50,12 @@ def verify_access_token(token: str, credentials_exception):
     """
     try:
         payload = jwt.decode(token, SECRET_KEY, ALGORITHM)
-        student_id: int = payload.get("student_id")
+        admin_id: int = payload.get("admin_id")
 
-        if student_id is None:
+        if admin_id is None:
             raise credentials_exception
 
-        token_data = schemas.TokenData(id=student_id)
+        token_data = schemas.TokenData(id=admin_id)
     except jwt.ExpiredSignatureError:
         raise credentials_exception
     except jwt.InvalidTokenError:
@@ -61,7 +64,7 @@ def verify_access_token(token: str, credentials_exception):
     return token_data
 
 
-def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(databaseConn.get_db)):
+def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(databaseConnect.get_db)):
     """
     Retrieve the current user based on the JWT token.
 
@@ -70,7 +73,7 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         db (Session): The database session.
 
     Returns:
-        Donors: The donor object corresponding to the token.
+        Admin: The admin object corresponding to the token.
 
     Raises:
         HTTPException: If the token is invalid or the user is not found.
@@ -86,12 +89,12 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         print(f"Token verification failed: {e.detail}")
         raise
 
-    student = db.query(models.Students).filter(models.Students.student_id == access_token.id).first()
+    admin = db.query(models.Admin).filter(models.Admin.admin_id == access_token.id).first()
 
     # print(access_token.donor_id)
     # print(donor.donor_id)
-    if student is None:
-        print("Donor not found")
+    if admin is None:
+        print("Admin not found")
         raise credentials_exception
 
-    return student 
+    return admin 

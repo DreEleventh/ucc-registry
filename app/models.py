@@ -150,3 +150,27 @@ class Lecturers(Base):
     title = relationship("LecturerTitles")
     department = relationship("Departments")
     position = relationship("PositionTypes")
+    
+    
+#--------------------------------------- Admin -----------------------------------------
+
+class Admin(Base): 
+    __tablename__ = "admin"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    admin_id = Column(String(10), unique=True, nullable=False)
+    first_name = Column(String(50), nullable=False)
+    last_name = Column(String(50), nullable=False)
+    admin_email = Column(String(30), nullable=False)
+    status = Column(String(15), nullable=False)
+    hire_date = Column(TIMESTAMP, nullable=False, server_default=text('CURRENT_TIMESTAMP'))
+    
+    
+class AdminCredentials(Base):
+    __tablename__ = "admin_credentials"
+    id = Column(Integer, primary_key=True, autoincrement=True, nullable=False)
+    admin_id = Column(String(10), ForeignKey('admin.admin_id', ondelete="CASCADE"), nullable=False)
+    username = Column(String(100), nullable=False)
+    password = Column(String(100), nullable=False)
+    last_login_time = Column(TIMESTAMP(timezone=True))
+
+    student = relationship("Admin")

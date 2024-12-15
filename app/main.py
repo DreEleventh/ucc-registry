@@ -11,7 +11,7 @@ from contextlib import asynccontextmanager
 
 
 from app.databaseConnect import engine, Base
-from app.routers import students, courses, programs, lecturers
+from app.routers import students, courses, programs, lecturers, admin, auth
 
 
 @asynccontextmanager
@@ -39,6 +39,9 @@ app.include_router(lecturers.lecturers_router)
 app.include_router(lecturers.titles_router)
 app.include_router(lecturers.departments_router)
 app.include_router(lecturers.positions_router)
+app.include_router(admin.admin_router)
+
+app.include_router(auth.router)
 
 @app.get("/")
 async def root():

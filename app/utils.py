@@ -91,3 +91,60 @@ def generate_suffix(num_of: int) -> str:
     return random_suffix
 
 
+def generate_admin_id(db: Session) -> str:
+    
+    while True:
+        year_prefix = str(datetime.now().year)
+        # Generate a random 9-character alphanumeric ID
+        suffix = generate_suffix(6)
+
+        admin_id = f"{year_prefix}{suffix}"
+
+        # Check if the generated ID already exists in the database
+        existing_id = db.query(models.Admin).filter_by(admin_id=admin_id).first()
+
+        if not existing_id:
+            return admin_id
+        
+def generate_admin_email(first_name: str, last_name: str, db: Session) -> str:
+    """
+    Generate a unique admin email based on first and last name, 
+    ensuring no duplication in the database.
+
+    Args:
+        first_name (str): The Admin's first name.
+        last_name (str): The admin's last name.
+        db (Session): The database session.
+
+    Returns:
+        str: A unique admin email address.
+    """
+    existing_emails = get_existing_emails(db)
+
+    sanitized_first_name = re.sub(r'[^a-zA-Z]', '', first_name.strip()).lower()
+    sanitized_last_name = re.sub(r'[^a-zA-Z]', '', last_name.strip()).lower()
+    email_suffix = generate_suffix(2)
+
+    base_email = f"{sanitized_first_name}.{sanitized_last_name}{email_suffix}@ucc.edu.jm"
+
+    admin_email = base_email
+    while admin_email in existing_emails:
+        suffix = generate_suffix(2)
+        admin_email = f"{sanitized_first_name}.{sanitized_last_name}{suffix}@ucc.edu.jm"
+
+    return admin_email
+
+
+def get_admin_emails(db: Session) -> set:
+    """
+    Fetch all existing admin emails from the database.
+
+    Args:
+        db (Session): The database session.
+
+    Returns:
+        set: A set of all existing admin emails.
+    """
+    emails = db.query(models.Admin.admin_email).all()
+    return {email[0] for email in emails}
+
