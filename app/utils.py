@@ -1,9 +1,23 @@
+
+from passlib.context import CryptContext
 from datetime import datetime
 import random
 import string
 from sqlalchemy.orm import  Session
 import app.models as models
 import re
+
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+
+
+def hash_password(pass_code: str):
+    # Function that hashes the password of each user
+    return pwd_context.hash(pass_code)
+
+
+def verify_passcode(plain_password, hashed_password):
+    # Verifies a plain password against a hashed password.
+    return pwd_context.verify(plain_password, hashed_password)
 
 
 def generate_student_id(db: Session) -> str:

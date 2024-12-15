@@ -12,10 +12,27 @@ class ContactDetails(BaseModel):
     work_number: Optional[str] = None
     home_address: str
 
+class ContactDetailsResponse(ContactDetails): 
+    student_email: EmailStr
+    
+    class Config: 
+        from_attributes = True
+        
+    
 class EmergencyContacts(BaseModel):
     contact_person_name: str
     relation: str
     contact_number: str
+
+class StudentCredentials(BaseModel):
+    # username: Optional[EmailStr]
+    password: str
+    
+class StudentCredentialsResponse(StudentCredentials):
+    username: str
+    
+    class Config:
+        from_attributes = True
 
 class StudentBase(BaseModel):
     first_name: str
@@ -25,11 +42,13 @@ class StudentBase(BaseModel):
 
 class EnrolStudent(StudentBase):
     contact_details: ContactDetails
+    student_credentials: StudentCredentials
     emergency_contacts: List[EmergencyContacts]
 
 class EnrolStudentResponse(BaseModel):
     id: int
     student_id: str
+    student_email: str
     date_registered: datetime
 
     class Config:
@@ -172,7 +191,12 @@ class DegreeProgramResponse(DegreeProgramsBase):
     class Config:
         from_attributes = True
         
+class ProgramNamesResponse(BaseModel): 
+    id: int
+    program_name: str
 
+    class Config: 
+        from_attribute = True 
 
 
 #------------------- Lecturers Schemas ---------------------
@@ -234,3 +258,21 @@ class LecturerResponse(LecturerBase):
 
     class Config:
         from_attributes = True
+        
+        
+#=============================== Token =============================
+
+class Token(BaseModel):
+    """
+    Model to represent an authentication token.
+    """
+    access_token: str
+    token_type: str
+
+
+class TokenData(BaseModel):
+    """
+    Model to represent token data.
+    """
+    id: Optional[str] = None
+

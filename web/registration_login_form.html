@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!--=== Coding by CodingLab | www.codinglabweb.com === -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!----======== CSS ======== -->
+    <link rel="stylesheet" href="assets/css/registration_styles.css">
+     
+    <!----===== Iconscout CSS ===== -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <title>Student Registration Form</title>
+</head>
+<body>
+    <div class="container">
+        <header>Student Registration</header>
+
+        <form id="studentRegistrationForm" action="#">
+            <div class="form first">
+                <div class="details personal">
+                    <span class="title">Personal Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label for="first_name" >First Name</label>
+                            <input type="text" id="first_name" name="first_name" placeholder="Enter your name">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="middle_name" >Middle Name</label>
+                            <input type="text" id="middle_name" name="middle_name" placeholder="Enter your name">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="last_name" >Last Name</label>
+                            <input type="text" id="last_name" name="last_name" placeholder="Enter your name">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="programs">Program of Study</label>
+                            <select id="programs" name="program_name">
+                                <option disabled selected>Select Program</option>
+                            </select>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Password</label>
+                            <input type="password" placeholder="Enter your password">
+                        </div>
+                        
+                        <div class="input-field">
+                            <label>Confirm Password</label>
+                            <input type="password" placeholder="Confirm password">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="details contacts">
+                    <span class="title">Contact Details</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Email</label>
+                            <input type="text" placeholder="Enter your email">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Mobile Number</label>
+                            <input type="text"  maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" placeholder="Enter mobile number">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Home Number</label>
+                            <input type="text"  maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" placeholder="Enter home number">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Work Number</label>
+                            <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" placeholder="Enter work number">
+                        </div>
+
+                        <div class="input-field">
+                            <label for="home_address" >Home Adress</label>
+                            <input type="text" id="home_address" name="home_address" placeholder="Enter your name">
+                        </div>
+                    </div>
+
+<!--                    <button class="nextBtn">-->
+<!--                        <span class="btnText">Next</span>-->
+<!--                        <i class="uil uil-navigator"></i>-->
+<!--                    </button>-->
+                </div> 
+            </div>
+
+            <div class="form second">
+                <div class="emergency contacts">
+                    <span class="title">Emergency Contacts</span>
+
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Contact Name</label>
+                            <input type="text" placeholder="Enter contacts name">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Relationship</label>
+                            <input type="text" placeholder="Mother, Father...">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Contact Number</label>
+                            <input type="text" maxlength="10" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10);" placeholder="Enter your state">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="student credentials">
+<!--                    <span class="title">Student Password</span>-->
+<!--                    <div class="fields">-->
+<!--                        <div class="input-field">-->
+<!--                            <label>Password</label>-->
+<!--                            <input type="password" placeholder="Enter your password">-->
+<!--                        </div>-->
+<!--                        -->
+<!--                        <div class="input-field">-->
+<!--                            <label>Confirm Password</label>-->
+<!--                            <input type="password" placeholder="Confirm password">-->
+<!--                        </div>-->
+<!--                    </div>-->
+
+                    <div class="buttons">
+<!--                        <div class="backBtn">-->
+<!--                            <i class="uil uil-navigator"></i>-->
+<!--                            <span class="btnText">Back</span>-->
+<!--                        </div>-->
+                        
+                        <button class="sumbit">
+                            <span class="btnText">Submit</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <script src="assets/js/registration_script.js"></script>
+</body>
+</html>

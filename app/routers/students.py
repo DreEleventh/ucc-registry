@@ -6,7 +6,7 @@ import logging
 import app.schemas as schemas
 import app.models as models
 from app.databaseConnect import get_db
-from app.utils import generate_student_id, generate_student_email
+from app.utils import generate_student_id, generate_student_email, hash_password
 
 router = APIRouter(
     prefix="/students",
@@ -16,33 +16,66 @@ router = APIRouter(
 
 @router.post("/register", status_code=status.HTTP_201_CREATED, response_model=schemas.EnrolStudentResponse)
 async def register_student(student_data: schemas.EnrolStudent, db: Session = Depends(get_db)):
+    try: 
+        # Generate unique student ID and email
+        student_id = generate_student_id(db)
+        student_email = generate_student_email(student_data.first_name, student_data.last_name, db)
 
-    # Generate unique student ID and email
-    student_id = generate_student_id(db)
-    student_email = generate_student_email(student_data.first_name, student_data.last_name, db)
+        # Extract data for the students table
+        student_dict = student_data.model_dump(exclude={"contact_details", "emergency_contacts", "student_credentials"})
+        new_student = models.Students(**student_dict, student_id=student_id)
+        db.add(new_student)
+        
+        # Add student contact details
+        contact_dict = student_data.contact_details.model_dump()
+        new_contact = models.StudentContacts(**contact_dict,
+                                            student_id=student_id, student_email=student_email)
+        db.add(new_contact)
 
-    # Extract data for the students table
-    student_dict = student_data.model_dump(exclude={"contact_details", "emergency_contacts"})
-    new_student = models.Students(**student_dict, student_id=student_id)
-    db.add(new_student)
+        # Add emergency contact details
+        for emergency_contact_data in student_data.emergency_contacts:
+            emergency_contact_dict = emergency_contact_data.model_dump()
+            new_emergency_contact = models.EmergencyContacts(
+                **emergency_contact_dict, student_id=student_id)
+            db.add(new_emergency_contact)
+
+        # Get Credentials 
+        # Hash user password  and get username
+        hashed_password = hash_password(student_data.student_credentials.password)
     
-    # Add student contact details
-    contact_dict = student_data.contact_details.model_dump()
-    new_contact = models.StudentContacts(**contact_dict,
-                                         student_id=student_id, student_email=student_email)
-    db.add(new_contact)
+        new_credentials = models.StudentCredentials(
+            student_id=student_id, 
+            username=student_email,
+            password=hashed_password,
+        )
+        db.add(new_credentials)
+        
+        # Commit changes to the database
+        db.commit()
+        db.refresh(new_student)
+        
+        # Fetch minimal student info
+        result = db.query(
+            models.Students.id,
+            models.Students.student_id,
+            models.StudentContacts.student_email,
+            models.Students.date_registered,
+        ).join(
+            models.StudentContacts,
+            models.Students.student_id == models.StudentContacts.student_id,
+        ).filter(models.Students.id == new_student.id).first()
 
-    # Add emergency contact details
-    for emergency_contact_data in student_data.emergency_contacts:
-        emergency_contact_dict = emergency_contact_data.model_dump()
-        new_emergency_contact = models.EmergencyContacts(
-            **emergency_contact_dict, student_id=student_id)
-        db.add(new_emergency_contact)
-
-    db.commit()
-    db.refresh(new_student)
-
-    return new_student
+        # Return minimal info
+        return {
+            "id": result.id,
+            "student_id": result.student_id,
+            "student_email": result.student_email,
+            "date_registered": result.date_registered
+        }
+    
+    except Exception as e:
+        db.rollback()  # Rollback in case of errors
+        raise HTTPException(status_code=500, detail=f"Registration failed: {str(e)}")
 
 
 @router.get("/get_all",response_model=List[schemas.StudentResponse])

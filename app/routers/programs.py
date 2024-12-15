@@ -78,3 +78,27 @@ async def get_single_program(program_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Degree program with ID {program_id} was not found.")
     
     return program
+
+# @programs_router.get("/get_program_names", response_model=List[schemas.ProgramNamesResponse])
+# async def program_names(db: Session = Depends(get_db)):
+#     program_names = db.query(models.DegreePrograms.program_name).order_by(models.DegreePrograms.id.desc()).all()
+    
+#     programs_dict = [program.__dict__ for program in program_names]
+    
+#     # program_names_list = [name[0] for name in program_names]
+    
+#     return programs_dict
+    
+
+@programs_router.get("/get_program_names", response_model=List[str])
+async def program_names(db: Session = Depends(get_db)):
+    program_names = db.query(models.DegreePrograms.program_name).all()
+    # Extract only the program names
+    program_names_list = [name[0] for name in program_names]
+    return program_names_list
+
+@programs_router.get("/program_id_names", response_model=List[schemas.ProgramNamesResponse])
+async def get_programs(db: Session = Depends(get_db)):
+    programs = db.query(models.DegreePrograms.id, models.DegreePrograms.program_name).all()
+    # Map the results to a list of dictionaries for the response
+    return [{"id": program.id, "program_name": program.program_name} for program in programs]
