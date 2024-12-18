@@ -71,7 +71,7 @@ class StudentResponse(StudentBase):
 class StudentInfo(StudentBase):
     student_id: str
     date_registered: datetime
-    gpa: Optional[int] = None
+    gpa: Optional[float] = None
 
     class Config:
         form_attributes = True
@@ -142,6 +142,9 @@ class CourseWithPrerequisitesResponse(BaseModel):
     class Config:
         from_attributes = True
 
+class DegreeLevel(BaseModel): 
+    level_name: str
+    level_code: str 
 
 #------------------- Prerequisites Schemas ---------------------
 

@@ -5,7 +5,16 @@ meta {
 }
 
 put {
-  url: http://127.0.0.1:8000/admin/update_admin/
-  body: none
+  url: http://127.0.0.1:8000/admin/update_admin/2024461142
+  body: json
   auth: none
+}
+
+body:json {
+  {
+    "first_name": "Tommy",
+    "last_name": "Redman",
+    "status": "Active",
+    "admin_email": "tommy.redman41@ucc.edu.jm"
+  }
 }

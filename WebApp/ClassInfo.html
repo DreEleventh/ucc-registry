@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Information</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .class-info {
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        .class-info h2 {
+            margin: 0;
+        }
+
+        .class-info p {
+            margin: 5px 0;
+        }
+
+        .dataTable-container {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .add-student-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #D9EAFD;
+        }
+
+        .add-student-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .add-student-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-student-form button {
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-student-form button:hover {
+            background-color: #7AB2D3;
+        }
+
+        .add-student-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-student-button:hover {
+            background-color: #B9E5E8;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logosec">
+            <a href="UCCRegistryHome.html">
+                <div class="logo">UCC Registry</div>
+            </a>
+        </div>
+  
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <div class="searchbtn"></div>
+        </div>     
+      </header>
+
+<br><br><br><br><br><br>
+
+    <div class="class-info">
+        <h2>Class Information</h2>
+        <p><strong>Course Code:</strong> CS101</p>
+        <p><strong>Course Name:</strong> Introduction to Programming</p>
+        <p><strong>Lecturer:</strong> <a href="Lecturer.html">Dr. John Doe</p></a>
+    </div>
+
+    <div class="dataTable-container">
+        <h2>Students in Class</h2>
+        <table id="studentsTable">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="Student page.html">2021001</a></td>
+                    <td><a href="Student page.html">John</a></td>
+                    <td><a href="Student page.html">Doe</a></td>
+                </tr>
+                <tr>
+                    <td><a href="Student page.html">2021002</a></td>
+                    <td><a href="Student page.html">Jane</a></td>
+                    <td><a href="Student page.html">Smith</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <button class="add-student-button" onclick="showAddStudentForm()">Add Student</button>
+
+        <div class="add-student-form" id="addStudentForm">
+            <h2>Add New Student</h2>
+            <label for="studentId">Student ID</label>
+            <input type="text" id="studentId" placeholder="Enter student ID" />
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" placeholder="Enter first name" />
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" placeholder="Enter last name" />
+            <button onclick="addStudent()">Submit</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#studentsTable').DataTable();
+        });
+
+        function showAddStudentForm() {
+            document.getElementById('addStudentForm').style.display = 'block';
+        }
+
+        function addStudent() {
+            const studentId = document.getElementById('studentId').value;
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+
+            if (studentId && firstName && lastName) {
+                const table = $('#studentsTable').DataTable();
+                table.row.add([
+                    `<a href="Student page.html">${studentId}</a>`,
+                    `<a href="Student page.html">${firstName}</a>`,
+                    `<a href="Student page.html">${lastName}</a>`
+                ]).draw(false);
+
+                alert('Student added successfully!');
+
+                // Clear the form fields and hide the form
+                document.getElementById('studentId').value = '';
+                document.getElementById('firstName').value = '';
+                document.getElementById('lastName').value = '';
+                document.getElementById('addStudentForm').style.display = 'none';
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+    </script>
+</body>
+
+</html>

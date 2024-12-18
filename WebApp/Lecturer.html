@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lecturer</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <link rel="stylesheet" href="assets/responsive.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .dataTable-container {
+            margin: 20px;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            background-color: #ffffff;
+        }
+
+
+        .add-course-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .add-course-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .add-course-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-course-form button {
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-course-form button:hover {
+            background-color: #7AB2D3;
+        }
+
+        .add-course-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-course-button:hover {
+            background-color: #B9E5E8;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logosec">
+            <a href="UCCRegistryHome.html">
+            <div class="logo">UCC Registry</div></a>
+        </div>
+
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <!-- <div class="searchbtn"></div> -->
+        </div>
+
+        <div class="message">
+            <!-- <div class="circle"></div> -->
+            <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210183322/8.png" class="icn" alt="">
+            <div class="dp">
+                <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180014/profile-removebg-preview.png" class="dpicn" alt="dp">
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+
+        <div class="main" id="content">
+
+            <div class="searchbar2">
+                <input type="text" name="" id="" placeholder="Search">
+                <div class="searchbtn">
+                    <img src="https://media.geeksforgeeks.org/wp-content/uploads/20221210180758/Untitled-design-(28).png" class="icn srchicn" alt="search-button">
+                </div>
+            </div>
+
+            <div class="box-container">
+
+                <div class="box box1">
+                    <div class="text">
+                        <h2 class="topic-heading">Andre McKenzie</h2>
+                        <h2 class="topic">Lecturer</h2>
+                    </div>
+                </div>
+
+                <div class="box box2">
+                    <div class="text">
+                        <h2 class="topic-heading">I T</h2>
+                        <h2 class="topic">Department</h2>
+                    </div>
+                </div>
+
+                <div class="box box3">
+                    <div class="text">
+                        <h2 class="topic-heading">LEC001</h2>
+                        <h2 class="topic">I D</h2>
+                    </div>
+                </div>
+            </div>
+       <br>
+
+
+
+    <div class="profile-card">
+        <div class="tab-nav">
+            <a href="#" class="active" id="tab-profile">Profile</a>
+            <a href="#" id="tab-emergency">Emergency Contacts</a>
+            <a href="#" id="tab-program">Department Information</a>
+        </div>
+
+        <div class="profile-section" id="profile-section">
+            <h2>Personal Information</h2>
+            <div class="info-row">
+                <div class="info-label">First Name:</div>
+                <div class="info-value">Andre</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Last Name:</div>
+                <div class="info-value">McKenzie</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Email:</div>
+                <div class="info-value">andre@example.com</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Phone:</div>
+                <div class="info-value">123-456-7890</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label">Address:</div>
+                <div class="info-value">123 Drive</div>
+            </div>
+        </div>
+
+        <div class="profile-section" id="emergency-section" style="display: none;">
+            <h2>Emergency Contacts</h2>
+             <div class="info-row">
+            <div class="info-label">Name:</div>
+            <div class="info-value">Jane Doe</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label">Contact:</div>
+            <div class="info-value">987-654-3210</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label">Relationship:</div>
+            <div class="info-value">Sister</div>
+        </div>
+        </div>
+
+        <div class="profile-section" id="program-section" style="display: none;">
+            <h2>Department Information</h2>
+            <div class="info-row">
+            <div class="info-label">Department:</div>
+            <div class="info-value">Information  Technologye</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label">Head of Department:</div>
+            <div class="info-value">Otis Osbourne</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label">Start Date:</div>
+            <div class="info-value">September 1, 2022</div>
+        </div>
+        <div class="info-row">
+            <div class="info-label">Dean:</div>
+            <div class="info-value">John Doe</div>
+    </div>
+
+        </div>
+    </div>
+
+<br>
+
+
+
+
+
+
+    <!-- DataTable Section -->
+    <div class="dataTable-container">
+        <h2>Andre's Courses</h2>
+        <table id="classSchedule">
+            <thead>
+                <tr>
+                    <th>Course</th>
+                    <th>Code</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Students</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="ClassInfo.html">Introduction to Programming</a></td>
+                    <td><a href="ClassInfo.html">CS101</a></td>
+                    <td>Mon</td>                            
+                    <td>09:00 AM</td>
+                    <td>30</td>
+                </tr>
+                <tr>
+                    <td><a href="ClassInfo.html">Software Engineering</a></td>
+                    <td><a href="ClassInfo.html">CS303</a></td>
+                    <td>Wed</td>
+                    <td>01:00 PM</td>
+                    <td>25</td>
+                </tr>
+            </tbody>
+        </table>
+        <button class="add-course-button" onclick="showAddCourseForm()">Add Course</button>
+
+        <div class="add-course-form" id="addCourseForm">
+            <h2>Add Course</h2>
+            <label for="courseId">Course Code</label>
+            <input type="text" id="courseId" placeholder="Enter course code" />
+            <label for="courseName">Course Name</label>
+            <input type="text" id="courseName" placeholder="Enter course name" />
+            <button onclick="addCourse()">Submit</button>
+        </div>
+    </div>
+</div>
+</div>
+
+
+
+    <!-- <script src="Lecturer.js"></script> -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#classSchedule').DataTable();
+
+        });
+
+
+        function showAddCourseForm() {
+            document.getElementById('addCourseForm').style.display = 'block';
+        }
+
+        function addCourse() {
+            const courseId = document.getElementById('courseId').value;
+            const courseName = document.getElementById('courseName').value;
+            const day = 'TBD';
+            const time = 'TBD';
+            const students = 'TBD';
+            
+
+            if (courseId && courseName) {
+                const table = $('#classSchedule').DataTable();
+                table.row.add([
+                    // `<a href="course${id}.html">${id}</a>`,
+                    courseName,
+                    courseId,
+                    day,
+                    time,
+                    students,
+                ]).draw(false);
+
+                alert('Course added successfully!');
+
+                // Clear the form fields and hide the form
+                document.getElementById('courseId').value = '';
+                document.getElementById('courseName').value = '';
+                document.getElementById('addCourseForm').style.display = 'none';
+                
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

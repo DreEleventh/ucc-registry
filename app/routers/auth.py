@@ -44,5 +44,5 @@ def admin_login(admin_credentials: OAuth2PasswordRequestForm = Depends(), db: Se
     admin.last_login_time = datetime.now()
     db.commit()
 
-    access_token = oauth2.create_access_token(payload={"admin_id": admin.donor_id})
+    access_token = oauth2.create_access_token(payload={"admin_id": admin.admin_id})
     return {"access_token": access_token, "token_type": "bearer"}

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses Management</title>
+    <!-- External CSS -->
+    <link rel="stylesheet" href="assets/css/courses_styles.css">
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+</head>
+
+<body>
+    <header>
+        <div class="logosec">
+            <a href="UCCRegistryHome.html">
+                <div class="logo">UCC Registry</div>
+            </a>
+        </div>
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <div class="searchbtn"></div>
+        </div>
+    </header>
+
+    <br><br><br><br><br><br>
+
+    <div id="courses_container" class="dataTable-container">
+        <h1>All Courses</h1>
+        <table id="coursesTable" class="table" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Credits</th>
+                    <th>Degree Level</th>
+                    <th>Description</th>
+                    <th>Active</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data dynamically added here -->
+            </tbody>
+        </table>
+
+        <!-- Add Course Button -->
+        <button class="add-course-button" onclick="showAddCourseForm()">Add Course</button>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div id="addCourseModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Add New Course</h2>
+            <label for="courseCode">Course Code</label>
+            <input type="text" id="courseCode" placeholder="Enter course code" />
+            <label for="courseName">Course Name</label>
+            <input type="text" id="courseName" placeholder="Enter course name" />
+            <label for="credits">Credits</label>
+            <input type="number" id="credits" placeholder="Enter number of credits" />
+            <label for="degreeLevel">Degree Level</label>
+            <input type="text" id="degreeLevel" placeholder="Enter degree level" />
+            <label for="prerequisites">Prerequisites</label>
+            <input type="text" id="prerequisites" placeholder="Enter prerequisites" />
+            <button onclick="addCourse()">Submit</button>
+        </div>
+    </div>
+
+    <!-- jQuery and DataTables JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <!-- External JS -->
+    <script src="assets/js/ucc_courses.js"></script>
+</body>
+
+</html>

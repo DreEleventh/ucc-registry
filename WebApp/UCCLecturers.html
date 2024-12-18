@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UCC Lecturers</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+
+      .dataTable-container {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        padding: 20px;
+        background-color: #f9f9f9;
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      table th,
+      table td {
+        text-align: left;
+        padding: 10px;
+      }
+
+      table th {
+        background-color: #f2f2f2;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .add-lecturer-form {
+        display: none;
+        margin-top: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+      }
+
+      .add-lecturer-form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      .add-lecturer-form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+      }
+
+      .add-lecturer-form button {
+        padding: 10px 20px;
+        background-color: #7ab2d3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .add-lecturer-form button:hover {
+        background-color: #7ab2d3;
+      }
+
+      .add-lecturer-button {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background-color: #7ab2d3;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      .add-lecturer-button:hover {
+        background-color: #b9e5e8;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <div class="logosec">
+        <a href="UCCRegistryHome.html">
+          <div class="logo">UCC Registry</div>
+        </a>
+      </div>
+
+      <div class="searchbar">
+        <input type="text" placeholder="Search" />
+        <div class="searchbtn"></div>
+      </div>
+    </header>
+
+    <br /><br /><br /><br /><br /><br />
+
+    <div class="dataTable-container">
+      <h1>UCC Lecturers</h1>
+      <table id="lecturersTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><a href="Lecturer.html">1</a></td>
+            <td><a href="Lecturer.html">Andre</a></td>
+            <td><a href="Lecturer.html">McKenzie</a></td>
+            <td><a href="Lecturer.html">test@email.com</a></td>
+          </tr>
+          <tr>
+            <td><a href="Lecturer.html">2</a></td>
+            <td><a href="Lecturer.html">John</a></td>
+            <td><a href="Lecturer.html">Doe</a></td>
+            <td><a href="Lecturer.html">test@email.com</a></td>
+          </tr>
+          <tr>
+            <td><a href="Lecturer.html">3</a></td>
+            <td><a href="Lecturer.html">Doe</a></td>
+            <td><a href="Lecturer.html">John</a></td>
+            <td><a href="Lecturer.html">test@email.com</a></td>
+          </tr>
+          <tr>
+            <td><a href="Lecturer.html">4</a></td>
+            <td><a href="Lecturer.html">Test</a></td>
+            <td><a href="Lecturer.html">Test</a></td>
+            <td><a href="Lecturer.html">test@email.com</a></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="add-lecturer-button" onclick="showAddLecturerForm()">
+        Add Lecturer
+      </button>
+
+      <div class="add-lecturer-form" id="addLecturerForm">
+        <h2>Add New Lecturer</h2>
+        <label for="firstName">First Name</label>
+        <input type="text" id="firstName" placeholder="Enter first name" />
+        <label for="lastName">Last Name</label>
+        <input type="text" id="lastName" placeholder="Enter last name" />
+        <label for="email">Email</label>
+        <input type="text" id="email" placeholder="Enter email" />
+        <button onclick="addLecturer()">Submit</button>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        $("#lecturersTable").DataTable();
+      });
+
+      function showAddLecturerForm() {
+        document.getElementById("addLecturerForm").style.display = "block";
+      }
+
+      function addLecturer() {
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const email = document.getElementById("email").value;
+
+        if (firstName && lastName && email) {
+          const table = $("#lecturersTable").DataTable();
+          table.row
+            .add([
+              `<a href="lecturer${id}.html">${firstName}</a>`,
+              `<a href="lecturer${id}.html">${lastName}</a>`,
+              `<a href="lecturer${id}.html">${email}</a>`,
+            ])
+            .draw(false);
+
+          alert("Lecturer added successfully!");
+
+          // Clear the form fields and hide the form
+          document.getElementById("firstName").value = "";
+          document.getElementById("lastName").value = "";
+          document.getElementById("email").value = "";
+          document.getElementById("addLecturerForm").style.display = "none";
+        } else {
+          alert("Please fill out all fields.");
+        }
+      }
+    </script>
+  </body>
+</html>

@@ -4,8 +4,13 @@ meta {
   seq: 5
 }
 
-get {
-  url: 
-  body: none
-  auth: none
+post {
+  url: http://127.0.0.1:8000/admin_login
+  body: multipartForm
+  auth: bearer
+}
+
+body:multipart-form {
+  username: tommy.redman41@ucc.edu.jm
+  password: Passw0rd122
 }

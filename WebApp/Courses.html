@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Courses</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        .dataTable-container {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            text-align: left;
+            padding: 10px;
+        }
+
+        table th {
+            background-color: #f2f2f2;
+        }
+
+        .add-course-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .add-course-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .add-course-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        .add-course-form select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+
+     .add-course-form button {
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        } 
+
+        .add-course-form button:hover {
+            background-color: #7AB2D3;
+        }
+
+        .add-course-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #7AB2D3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .add-course-button:hover {
+            background-color: #B9E5E8;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="logosec">
+            <a href="UCCRegistryHome.html">
+                <div class="logo">UCC Registry</div>
+            </a>
+        </div>
+  
+        <div class="searchbar">
+            <input type="text" placeholder="Search">
+            <div class="searchbtn"></div>
+        </div>     
+      </header>
+<br><br><br><br><br><br>
+    <div id="courses_container" class="dataTable-container mt5" style="width: 100%;">
+        <h1>All Courses</h1>
+        <table id="coursesTable" class="table table-striped table-bordered" style="width: 100%">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Course Code</th>
+                    <th>Course Title</th>
+                    <th>Credits</th>
+                    <th>Degree Level</th>
+                    <th>Description</th>
+                    <th>Active</th>
+                    <th>Date Added</th>
+                </tr>
+            </thead>
+            <tbody>
+             <!-- Data will be dynamically added here -->
+            </tbody>
+        </table>
+
+      <button class="add-course-button" onclick="showAddCourseForm()">Add Course</button>
+        <div class="add-course-form" id="addCourseForm">
+            <h2>Add New Course</h2>
+            <label for="code">Course Code</label>
+            <input type="text" id="code" name="course_code" placeholder="Enter course code" />
+            <label for="title">Course Title</label>
+            <input type="text" id="title" name="course_title" placeholder="Enter course name" />
+            <label for="course_credits">Credits</label>
+            <input type="number" id="course_credits" name="course_credits" placeholder="Enter number of credits" />
+            <label for="degree_levels">Degree Level</label> <!-- Dropdown-->
+            <select id="degree_levels" name="degree_level">
+                <option disabled selected>Select Degree Level</option>
+            </select>
+            <label for="programs">Program</label> <!-- Dropdown-->
+            <select id="programs" name="program_name">
+                <option disabled selected>Select Program</option>
+            </select>
+            <label for="description">Course Description</label>
+            <input type="text" id="description" name="description" placeholder="Enter degree level" />
+            <label for="course_status">Course Active</label> <!-- Dropdown-->
+            <select id="course_status" name="active">
+                <option disabled selected>Select Status</option>
+                <option>YES</option>
+                <option>NO</option>
+            </select>
+            <button onclick="addCourse()">Submit</button>
+        </div>
+    </div>
+    <script type="module" src="assets/js/courses.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    
+    <script>
+        $(document).ready(function () {
+            const table = $('#donations_table').DataTable({
+                columnDefs: [
+                    {"aaSorting": [[0, "desc"]]},
+                    {'class': "compact"},
+                    // {"scrollX": true},
+                    { width: '15%', targets: 1 },
+                    { width: '18%', targets: 6 },
+                    { width: '25%', targets: 3 }, // Set width of the Actions column to 20%
+                    {
+                        targets: 5, // Assuming the date_donated column is at index 4 (zero-based index)
+                        render: function(data, type, row) {
+                            // Parse the date string and format it as yyyy/mm/dd
+                            if (type === 'display' && data) {
+                                var date = new Date(data);
+                                var year = date.getFullYear();
+                                var month = ('0' + (date.getMonth() + 1)).slice(-2); // Adding leading zero if needed
+                                var day = ('0' + date.getDate()).slice(-2); // Adding leading zero if needed
+                                return year + '/' + month + '/' + day;
+                            }
+                            return data;
+                        }
+                    }
+                ]
+            });
+        });
+
+        function showAddCourseForm() {
+            document.getElementById('addCourseForm').style.display = 'block';
+        }
+
+        function addCourse() {
+            const courseCode = document.getElementById('courseCode').value;
+            const courseName = document.getElementById('courseName').value;
+            const credits = document.getElementById('credits').value;
+            const degreeLevel = document.getElementById('degreeLevel').value;
+            const prerequisites = document.getElementById('prerequisites').value;
+
+            if (courseCode && courseName && credits && degreeLevel && prerequisites) {
+                const table = $('#coursesTable').DataTable();
+                table.row.add([
+                    courseCode,
+                    courseName,
+                    credits,
+                    degreeLevel,
+                    prerequisites
+                ]).draw(false);
+
+                alert('Course added successfully!');
+
+                // Clear the form fields and hide the form
+                document.getElementById('courseCode').value = '';
+                document.getElementById('courseName').value = '';
+                document.getElementById('credits').value = '';
+                document.getElementById('degreeLevel').value = '';
+                document.getElementById('prerequisites').value = '';
+                document.getElementById('addCourseForm').style.display = 'none';
+            } else {
+                alert('Please fill out all fields.');
+            }
+        }
+    </script>
+</body>
+
+</html>

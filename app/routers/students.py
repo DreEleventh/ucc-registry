@@ -296,3 +296,13 @@ def read_student_info(student_id: str, db: Session = Depends(get_db)):
     if not student:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, details = f"Student with Student ID {student_id} not found")
     return student        
+
+
+@router.get("/all-student-info", response_model = List[schemas.StudentInfo])
+def read_all_student_info( db: Session = Depends(get_db)):
+
+    students = db.query(models.Students).all()
+    
+    students_dict = (student.__dict__ for student in students)
+
+    return students_dict       

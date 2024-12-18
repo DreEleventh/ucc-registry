@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UCC Students</title>
+    <link rel="stylesheet" href="assets/css/ucc_students_styles.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css"
+    />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  </head>
+
+  <body>
+    <header>
+      <div class="logosec">
+        <a href="UCCRegistryHome.html">
+          <div class="logo">UCC Registry</div>
+        </a>
+      </div>
+
+      <div class="searchbar">
+        <input type="text" placeholder="Search" />
+        <div class="searchbtn"></div>
+      </div>
+    </header>
+
+    <br /><br /><br /><br /><br /><br />
+
+    <div class="dataTable-container" class="dataTable-container mt5" style="width: 100%">
+      <h1>UCC Students</h1>
+      <!-- Add Student Button -->
+      <div class="button-container">
+        <button id="openModalBtn" class="modalBtn">Add Student</button>
+      </div>
+      
+      <table id="studentsTable" class="table table-striped table-bordered" style="width: 100%">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>First Name</th>
+            <th>Middle Name</th>
+            <th>Last Name</th>
+            <th>Date Registered</th>
+            <th>GPA</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Data will be dynamically added here -->
+        </tbody>
+      </table>
+
+      <!-- Modal for Registration Form -->
+      <div id="registrationModal" class="modal">
+        <div class="modal-content">
+          <span class="close" id="closeModalBtn">&times;</span>
+          <!-- Include the registration form -->
+          <iframe
+            src="registration_form.html"
+            width="100%"
+            height="600px"
+            style="border: none; margin: 0; padding: 0; display: block;""
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="assets/js/ucc_students.js"></script>
+    <script>
+      const modal = document.getElementById("registrationModal");
+      const openBtn = document.getElementById("openModalBtn");
+      const closeBtn = document.getElementById("closeModalBtn");
+
+      // Open modal
+      openBtn.onclick = function () {
+        modal.style.display = "block";
+      };
+
+      // Close modal
+      closeBtn.onclick = function () {
+        modal.style.display = "none";
+      };
+
+      // Close modal if user clicks outside content
+      window.onclick = function (event) {
+        if (event.target == modal) {
+          modal.style.display = "none";
+        }
+      };
+
+      $(document).ready(function () {
+        $("#studentsTable").DataTable();
+
+      });
+
+      function showAddStudentForm() {
+        document.getElementById("addStudentForm").style.display = "block";
+      }
+
+      function addStudent() {
+        const id = document.getElementById("studentId").value;
+        const firstName = document.getElementById("firstName").value;
+        const lastName = document.getElementById("lastName").value;
+        const dateRegistered = new Date().toISOString().split("T")[0]; // Today's date
+
+        if (id && firstName && lastName) {
+          const table = $("#studentsTable").DataTable();
+          table.row
+            .add([
+              `<a href="student${id}.html">${id}</a>`,
+              `<a href="student${id}.html">${firstName}</a>`,
+              `<a href="student${id}.html">${lastName}</a>`,
+              `<a href="student${id}.html">${dateRegistered}</a>`,
+            ])
+            .draw(false);
+
+          alert("Student added successfully!");
+
+          // Clear the form fields and hide the form
+          document.getElementById("studentId").value = "";
+          document.getElementById("firstName").value = "";
+          document.getElementById("lastName").value = "";
+          document.getElementById("addStudentForm").style.display = "none";
+        } else {
+          alert("Please fill out all fields.");
+        }
+      }
+    </script>
+  </body>
+</html>

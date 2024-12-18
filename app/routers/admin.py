@@ -1,4 +1,3 @@
-import sched
 from fastapi import HTTPException, Depends, status, APIRouter
 from sqlalchemy.orm import Session
 from typing import List

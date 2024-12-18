@@ -37,6 +37,9 @@ async def get_all_courses(db: Session = Depends(get_db)):
     
     return courses_dict
 
+@courses_router.get("get_all_courses", )
+async def get_courses():
+    pass
 
 # @router.put("/update_course/{course_id}", response_model=schemas.CourseResponse)
 # async def update_course(course_id: int, course_update: schemas.AddCourses, db: Session = Depends(get_db)):

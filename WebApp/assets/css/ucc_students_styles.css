@@ -1,0 +1,132 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+  }
+
+  .dataTable-container {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    background-color: #f9f9f9;
+  }
+
+  .button-container {
+    display: flex;
+    align-items: center; /* Vertically align items */
+    gap: 10px; /* Add spacing between button and dropdown */
+    margin-bottom: 10px; /* Optional margin for separation */
+}
+
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  table th,
+  table td {
+    text-align: left;
+    padding: 10px;
+  }
+
+  table th {
+    background-color: #f2f2f2;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  .add-student-form {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #d9eafd;
+  }
+
+  .add-student-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+
+  .add-student-form input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  /* .modalBtn button {
+    padding: 10px 20px;
+    background-color: #7ab2d3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .modalBtn button:hover {
+    background-color: #7ab2d3;
+    color: #333;
+  } */
+
+  .modalBtn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #7ab2d3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .modalBtn:hover {
+    background-color: #b9e5e8;
+    color: #333;
+  }
+
+  /* Style for the modal (hidden by default) */
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  /* Modal content */
+  .modal-content {
+    background-color: #7ab2d3;
+    margin: 10% auto;
+    padding: 7px;
+    border-radius: 10px;
+    width: 60%;
+    position: relative;
+  }
+
+  /* Close button */
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+  }
