@@ -14,3 +14,12 @@ A comprehensive student management system built with FastAPI and SQLAlchemy, des
 - MySQL
 
 Simplifying student data management with modern Python web technologies.
+
+## Group Members 
+- LIVINGSTON CLYAN clyan@stu.ucc.edu.jm
+- Martin David dmartin18@stu.ucc.edu.jm
+- Henry Jada jhenry37@stu.ucc.edu.jm
+- McKenzie Andre amckenzie31@stu.ucc.edu.j
+
+## Presentation Link
+https://drive.google.com/drive/folders/1zRQOwoDFV_XVthYFZfYJ60YkRlkZmXcE?usp=drive_link
